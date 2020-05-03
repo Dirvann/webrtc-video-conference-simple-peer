@@ -1,4 +1,4 @@
-# webrtc-video-conference-example-simple-peer
+# WebRTC Video Conferencing with simple-peer
 A simple video conferencing example using simple-peer.
 This project allows multiple devices to connect with eachother with audio and video using webrtc.
 The package [simple-peer](https://github.com/feross/simple-peer) is used for webrtc.
