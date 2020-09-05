@@ -25,7 +25,7 @@ require('./socketController')(io)
 
 
 httpsServer.listen(port, () => {
-    console.log('listening on port 3012')
+    console.log(`listening on port ${port}`)
 })
 
 
