@@ -12,8 +12,8 @@ let localStream = null;
 let peers = {}
 
 // redirect if not https
-if(location.href.substr(0,5) !== 'https') 
-    location.href = 'https' + location.href.substr(4, location.href.length - 4)
+// if(location.href.substr(0,5) !== 'https') 
+//     location.href = 'https' + location.href.substr(4, location.href.length - 4)
 
 
 //////////// CONFIGURATION //////////////////
@@ -23,15 +23,15 @@ if(location.href.substr(0,5) !== 'https')
  */
 const configuration = {
     "iceServers": [{
-            "urls": "stun:stun.l.google.com:19302"
-        },
-        // public turn server from https://gist.github.com/sagivo/3a4b2f2c7ac6e1b5267c2f1f59ac6c6b
-        // set your own servers here
-        {
-            url: 'turn:192.158.29.39:3478?transport=udp',
-            credential: 'JZEOEt2V3Qb0y27GRntt2u2PAYA=',
-            username: '28224511:1379330808'
-        }
+        "urls": "stun:stun.l.google.com:19302"
+    },
+    // public turn server from https://gist.github.com/sagivo/3a4b2f2c7ac6e1b5267c2f1f59ac6c6b
+    // set your own servers here
+    {
+        url: 'turn:192.158.29.39:3478?transport=udp',
+        credential: 'JZEOEt2V3Qb0y27GRntt2u2PAYA=',
+        username: '28224511:1379330808'
+    }
     ]
 }
 
@@ -209,8 +209,35 @@ function switchMedia() {
 /**
  * Enable screen share
  */
+// function setScreen() {
+//     navigator.mediaDevices.getDisplayMedia().then(stream => {
+//         for (let socket_id in peers) {
+//             for (let index in peers[socket_id].streams[0].getTracks()) {
+//                 for (let index2 in stream.getTracks()) {
+//                     if (peers[socket_id].streams[0].getTracks()[index].kind === stream.getTracks()[index2].kind) {
+//                         peers[socket_id].replaceTrack(peers[socket_id].streams[0].getTracks()[index], stream.getTracks()[index2], peers[socket_id].streams[0])
+//                         break;
+//                     }
+//                 }
+//             }
+
+//         }
+//         localStream = stream
+
+//         localVideo.srcObject = localStream
+//         socket.emit('removeUpdatePeer', '')
+//     })
+//     updateButtons()
+// }
+
 function setScreen() {
+
     navigator.mediaDevices.getDisplayMedia().then(stream => {
+        const screenTrack = stream.getTracks()[0];
+
+        localStream = stream
+        localVideo.srcObject = localStream
+
         for (let socket_id in peers) {
             for (let index in peers[socket_id].streams[0].getTracks()) {
                 for (let index2 in stream.getTracks()) {
@@ -222,13 +249,35 @@ function setScreen() {
             }
 
         }
-        localStream = stream
 
-        localVideo.srcObject = localStream
-        socket.emit('removeUpdatePeer', '')
+
+        // triggers when screen share ends and replaces to user media
+        screenTrack.onended = function () {
+
+            navigator.mediaDevices.getUserMedia(constraints).then(stream => {
+                for (let socket_id in peers) {
+                    for (let index in peers[socket_id].streams[0].getTracks()) {
+                        for (let index2 in stream.getTracks()) {
+                            if (peers[socket_id].streams[0].getTracks()[index].kind === stream.getTracks()[index2].kind) {
+                                peers[socket_id].replaceTrack(peers[socket_id].streams[0].getTracks()[index], stream.getTracks()[index2], peers[socket_id].streams[0])
+                                break;
+                            }
+                        }
+                    }
+
+                }
+                localStream = stream
+                localVideo.srcObject = localStream
+            }).catch(function (error) {
+                console.log(error);
+            });
+
+        }
+
     })
-    updateButtons()
+
 }
+
 
 /**
  * Disables and removes the local stream and all the connections to other peers.
