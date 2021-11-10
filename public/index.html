@@ -32,10 +32,31 @@
             margin: 2px 2px;
             cursor: pointer;
         }
+        .inputBox{
+            width: 300px;
+            height: 30px;
+        }
+        .text{
+            float: right;
+        }
+        .chatWindow{
+            border:1px solid black;
+            width: 300px;
+            height: 368px;
+        }
+        
     </style>
 </head>
 
 <body>
+    <div class="text">
+        <div class="chatWindow"></div>
+        <input type="text" id="inputBox" class="inputBox" value="Enter Message">
+        <br><br>
+        <button id="chatInit" class="settings" onclick="startChat()" style="background-color: red;">Start Chat</button>
+        <button id="chatSubmit" class="settings" onclick="sendChat()">Send</button>
+    </div>
+
     <div id="videos" class="container">
         <video id="localVideo" class="vid" autoplay muted></video>
     </div>
@@ -46,6 +67,9 @@
         <button id="muteButton" class="settings" onclick="toggleMute()">Unmuted</button>
         <button id="vidButton" class="settings" onclick="toggleVid()">Video Enabled</button>
     </div>
+
+    
+
 </body>
 <footer>
     <script src='/js/main.js' lang="text/javascript"></script>

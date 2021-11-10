@@ -279,3 +279,32 @@ function updateButtons() {
         muteButton.innerText = localStream.getAudioTracks()[index].enabled ? "Unmuted" : "Muted"
     }
 }
+
+const chatWindow = document.querySelector('.chatWindow')
+
+const renderMessage = message => {
+  const div = document.createElement('div')
+  div.classList.add('render-message')
+  div.innerText = message
+  chatWindow.appendChild(div)
+}
+
+function startChat() {
+
+    console.log("intiated chatting");
+
+    socket.on('chat', message=>{
+        renderMessage(message);
+        console.log('Received : ',message);
+    })
+}
+
+
+function sendChat() {
+
+    console.log("sent message!");
+
+    let msg2send = document.getElementById('inputBox').value;
+    
+    socket.emit("message", msg2send);
+}
