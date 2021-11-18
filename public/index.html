@@ -3,7 +3,67 @@
 <head>
     <script lang="text/javascript" src="/socket.io/socket.io.js"></script>
     <script src="/simple-peer/simplepeer.min.js"></script>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WebRTC Demo</title>
+    <script src="https://aframe.io/releases/0.7.1/aframe.min.js"></script>
+    <script src="https://npmcdn.com/aframe-animation-component@3.0.1"></script>
+    <script src="https://npmcdn.com/aframe-event-set-component@3.0.1"></script>
+    <script src="https://npmcdn.com/aframe-layout-component@3.0.1"></script>
+    <script src="https://npmcdn.com/aframe-template-component@3.1.1"></script>
+
     <style>
+        @import url("https://fonts.googleapis.com/css2?family=Syne+Mono&display=swap");
+
+        body {
+            font-family: "Syne Mono", monospace;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-align: center;
+            color: #2c3e50;
+            margin: 80px 10px;
+        }
+
+        video {
+            width: 20vw;
+            height: 10vw;
+            margin: 2rem;
+            background: #2c3e50;
+        }
+
+        .a-scene {
+            margin: 2rem;
+            width: 20vw;
+            height: 15vw;
+        }
+
+        .fullscreen {
+            margin: 2rem;
+            width: 20vw;
+            height: 15vw;
+        }
+
+        .videos {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .a-canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+
+
+        .local {
+            display: block;
+        }
+
+        video {
+            width: 524px;
+        }
+
         .containers {
             display: grid;
             grid-gap: 5px;
@@ -36,9 +96,101 @@
 </head>
 
 <body>
-    <div id="videos" class="container">
-        <video id="localVideo" class="vid" autoplay muted></video>
+
+
+
+
+
+    <div class="videos">
+        <div class="local_video">
+            <span class="local_360 video_mod">
+                <h3>Local Stream</h3>
+                <video id="localVideo" class="vid" style="" autoplay loop crossorigin="anonymous" playsinline
+                    webkit-playsinline>
+                    <!-- MP4 video source. -->
+
+                </video>
+                <a-scene>
+                    <!-- The original example also has this 180 degree rotation, to appear to be going forward. -->
+                    <a-videosphere id="image-360" rotation="0 360 0" src="#localVideo"
+                        play-on-vrdisplayactivate-or-enter-vr>
+                    </a-videosphere>
+
+                    <!-- Define camera with zero user height, movement disabled and arrow key rotation added. -->
+                    <a-camera user-height="0" wasd-controls-enabled="false" arrow-key-rotation>
+                        <!-- Text element for display messaging.  Hide once video is playing. -->
+                    </a-camera>
+
+                    <!-- Wait for the video to load. -->
+                    <a-assets id="video_remote_360">
+                        <!-- Single source video. -->
+                        <video id="localVideo" class="" style="display:none" autoplay loop crossorigin="anonymous"
+                            playsinline webkit-playsinline>
+                            <!-- MP4 video source. -->
+
+                        </video>
+
+                    </a-assets>
+                    <a-entity id="buttons" visible="true">
+
+
+                        <a-entity id="treebutton" rotation="0 -35" position="1.7 0 -1.7" text="value: REMOTE ;"
+                            geometry="primitive: plane; height: 0.25; width: 0.5"
+                            event-set__1="_event: mousedown; scale: 1 1 1"
+                            event-set__2="_event: mouseup; scale: 1.2 1.2 1"
+                            event-set__3="_event: mouseenter; scale: 1.2 1.2 1"
+                            event-set__4="_event: mouseleave; scale: 1 1 1" hide="target: #buttons"
+                            play-video="on:click; target: #image-360; src: #rem_video_360"></a-entity>
+                        <a-entity></a-entity>
+
+                        <a-entity id="pondbutton" rotation="0 -90" position="2.5 0 0" text="value:LOCAL  ;"
+                            geometry="primitive: plane; height: 0.25; width: 0.5"
+                            event-set__1="_event: mousedown; scale: 1 1 1"
+                            event-set__2="_event: mouseup; scale: 1.2 1.2 1"
+                            event-set__3="_event: mouseenter; scale: 1.2 1.2 1"
+                            event-set__4="_event: mouseleave; scale: 1 1 1" hide="target: #buttons"
+                            play-video="on:click; target: #image-360; src:#localVideo"></a-entity>
+                    </a-entity>
+                    <a-entity id="homebutton" rotation="-90 -90" position="0.48106 -1 0"
+                        geometry="primitive: plane; height: 0.25; width: 0.5" material="src: #home"
+                        event-set__1="_event: mousedown; scale: 1 1 1" event-set__2="_event: mouseup; scale: 1.2 1.2 1"
+                        event-set__3="_event: mouseenter; scale: 1.2 1.2 1"
+                        event-set__4="_event: mouseleave; scale: 1 1 1"
+                        play-video="on:click; target: #image-360; src: #title">
+
+
+                    </a-entity>
+
+
+                    <a-entity camera look-controls>
+                        <a-entity cursor="fuse: true; fuseTimeout: 500" position="0 0 -1"
+                            geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
+                            material="color: white; shader: flat">
+                        </a-entity>
+                    </a-entity>
+
+                </a-scene>
+            </span>
+
+            <button id="btn_mod">360</button>
+            <button id="local_mute">mute</button>
+        </div>
+
+        <span class="remoute_video video_mod">
+            <h3>Remote Stream</h3>
+            <div id="remoteVideo" class="remote_videos">
+
+            </div>
+
+
+        </span>
+
+
+
     </div>
+
+
+
     <br />
     <div style="display:block">
         <button id="switchButton" class="settings" onclick="switchMedia()">Switch
