@@ -60,7 +60,7 @@ navigator.mediaDevices.getUserMedia(constraints).then(stream => {
     console.log(localVideo);
     localVideo.srcObject = stream;
     localStream = stream;
-
+    localStream.muted = true
     init()
 
 }).catch(e => alert(`getusermedia error ${e.name}`))
@@ -161,7 +161,7 @@ function addPeer(socket_id, am_initiator) {
         newVid.ontouchstart = (e) => openPictureMode(newVid)
         if (!rem_video_360.querySelector('.vid')) {
             newVid.id = "rem_video_360";
-            
+
             rem_video_360.appendChild(newVid)
         }
         else {
