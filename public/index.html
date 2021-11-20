@@ -24,26 +24,7 @@
             margin: 80px 10px;
         }
 
-        video {
-            width: 20vw;
-            height: 10vw;
-            margin: 2rem;
-            background: #2c3e50;
-        }
-
-        .a-scene {
-            margin: 2rem;
-            width: 20vw;
-            height: 15vw;
-        }
-
-        .fullscreen {
-            margin: 2rem;
-            width: 20vw;
-            height: 15vw;
-        }
-
-        .videos {
+        S .videos {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -104,33 +85,40 @@
     <div class="videos">
         <div class="local_video">
             <span class="local_360 video_mod">
-                <h3>Local Stream</h3>
-                <video id="localVideo" class="vid" style="" autoplay loop muted crossorigin="anonymous" playsinline
-                    webkit-playsinline>
-                    <!-- MP4 video source. -->
 
-                </video>
+
                 <a-scene>
+                    <a-assets id="video_remote_360">
+                        <!-- Single source video. -->
+
+                        <video id="localVideo" class="" muted autoplay loop crossorigin="anonymous" playsinline
+                            webkit-playsinline>
+                            <!-- MP4 video source. -->
+
+                        </video>
+                        <video id="localVideo12" src="https://immersive-live-streaming-transcodingegressbucket-1iw3938j3ab6z.s3.eu-west-1.amazonaws.com/360video/Fusion+Baloon+Fly.mp4" class="" autoplay loop crossorigin="anonymous"
+                            playsinline webkit-playsinline>
+                            <!-- MP4 video source. -->
+
+                        </video>
+                    </a-assets>
                     <!-- The original example also has this 180 degree rotation, to appear to be going forward. -->
-                    <a-videosphere id="image-360" rotation="0 360 0" src="#localVideo"
+                    <a-videosphere id="image-360" src="#localVideo12" rotation="0 360 0"
                         play-on-vrdisplayactivate-or-enter-vr>
                     </a-videosphere>
 
                     <!-- Define camera with zero user height, movement disabled and arrow key rotation added. -->
                     <a-camera user-height="0" wasd-controls-enabled="false" arrow-key-rotation>
                         <!-- Text element for display messaging.  Hide once video is playing. -->
+                        <a-video id="local_video" src="#localVideo" width="16" height="12" position="75 -9 -60">
+                        </a-video>
+                        <a-video id="local_video2" src="#rem_video_360" width="16" height="12" position="75 -25 -60">
+                        </a-video>
+
                     </a-camera>
 
                     <!-- Wait for the video to load. -->
-                    <a-assets id="video_remote_360">
-                        <!-- Single source video. -->
-                        <video id="localVideo2" class="" style="display:none" autoplay loop crossorigin="anonymous"
-                            playsinline webkit-playsinline>
-                            <!-- MP4 video source. -->
 
-                        </video>
-
-                    </a-assets>
                     <a-entity id="buttons" visible="true">
 
 
@@ -140,7 +128,7 @@
                             event-set__2="_event: mouseup; scale: 1.2 1.2 1"
                             event-set__3="_event: mouseenter; scale: 1.2 1.2 1"
                             event-set__4="_event: mouseleave; scale: 1 1 1" hide="target: #buttons"
-                            play-video="on:click; target: #image-360; src: #rem_video_360"></a-entity>
+                            play-video="on:click; target: #local_video; src: #localVideo"></a-entity>
                         <a-entity></a-entity>
 
                         <a-entity id="pondbutton" rotation="0 -90" position="2.5 0 0" text="value:LOCAL  ;"
@@ -149,17 +137,9 @@
                             event-set__2="_event: mouseup; scale: 1.2 1.2 1"
                             event-set__3="_event: mouseenter; scale: 1.2 1.2 1"
                             event-set__4="_event: mouseleave; scale: 1 1 1" hide="target: #buttons"
-                            play-video="on:click; target: #image-360; src:#localVideo"></a-entity>
+                            play-video="on:click; target: #image-360; src:#localVideo12"></a-entity>
                     </a-entity>
-                    <a-entity id="homebutton" rotation="-90 -90" position="0.48106 -1 0"
-                        geometry="primitive: plane; height: 0.25; width: 0.5" material="src: #home"
-                        event-set__1="_event: mousedown; scale: 1 1 1" event-set__2="_event: mouseup; scale: 1.2 1.2 1"
-                        event-set__3="_event: mouseenter; scale: 1.2 1.2 1"
-                        event-set__4="_event: mouseleave; scale: 1 1 1"
-                        play-video="on:click; target: #image-360; src: #title">
 
-
-                    </a-entity>
 
 
                     <a-entity camera look-controls>
@@ -172,8 +152,7 @@
                 </a-scene>
             </span>
 
-            <button id="btn_mod">360</button>
-            <button id="local_mute">mute</button>
+
         </div>
 
         <span class="remoute_video video_mod">
