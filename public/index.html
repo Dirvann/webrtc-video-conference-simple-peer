@@ -1,152 +1,82 @@
 <html>
 
 <head>
-    <script lang="text/javascript" src="/socket.io/socket.io.js"></script>
-    <script src="/simple-peer/simplepeer.min.js"></script>
+
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <title>WebRTC Demo</title>
     <script src="https://aframe.io/releases/0.7.1/aframe.min.js"></script>
     <script src="https://npmcdn.com/aframe-animation-component@3.0.1"></script>
     <script src="https://npmcdn.com/aframe-event-set-component@3.0.1"></script>
     <script src="https://npmcdn.com/aframe-layout-component@3.0.1"></script>
     <script src="https://npmcdn.com/aframe-template-component@3.1.1"></script>
+    <script src='main.js' lang="text/javascript"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
+        rel="stylesheet">
 
-    <style>
-        @import url("https://fonts.googleapis.com/css2?family=Syne+Mono&display=swap");
+    <link rel="stylesheet" href="style.css">
 
-        body {
-            font-family: "Syne Mono", monospace;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            text-align: center;
-            color: #2c3e50;
-            margin: 80px 10px;
-        }
-
-        S .videos {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .a-canvas {
-            width: 100% !important;
-            height: 100% !important;
-        }
-
-
-
-        .local {
-            display: block;
-        }
-
-        video {
-            width: 524px;
-        }
-
-        .containers {
-            display: grid;
-            grid-gap: 5px;
-            grid-template-columns: repeat(auto-fit, 1fr);
-            grid-template-rows: repeat(auto-fit, 300px);
-        }
-
-        .container {
-            display: flex;
-        }
-
-        .vid {
-            flex: 0 1 auto;
-            height: 400px;
-        }
-
-        .settings {
-            background-color: #4CAF50;
-            border: none;
-            color: white;
-            padding: 5px 10px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 14px;
-            margin: 2px 2px;
-            cursor: pointer;
-        }
-    </style>
 </head>
 
 <body>
-
-
-
-
-
+    <header>
+        <div class="menu_icon">
+            <span> </span>
+        </div>
+        <nav class="menu_body">
+            <ul>
+                <li><a href="#">Join Us</a></li>
+                <li><a href="#">Our Mission</a></li>
+                <li><a href="#">Our Team</a></li>
+                <li><a href="#">Enquiries</a></li>
+            </ul>
+        </nav>
+    </header>
     <div class="videos">
         <div class="local_video">
             <span class="local_360 video_mod">
 
+                <a-scene background="color: black">
 
-                <a-scene>
+                    <div class="content">
+                        <div class="title">
+                            <h1>billionair</h1>
+                            <p>The whole world with home comforts</p>
+
+                        </div>
+                    </div>
+
+
                     <a-assets id="video_remote_360">
                         <!-- Single source video. -->
 
-                        <video id="localVideo" class="" muted autoplay loop crossorigin="anonymous" playsinline
-                            webkit-playsinline>
-                            <!-- MP4 video source. -->
-
-                        </video>
-                        <video id="localVideo12" src="https://immersive-live-streaming-transcodingegressbucket-1iw3938j3ab6z.s3.eu-west-1.amazonaws.com/360video/Fusion+Baloon+Fly.mp4" class="" autoplay loop crossorigin="anonymous"
-                            playsinline webkit-playsinline>
+                        <video playsinline autoplay muted loop id="localVideo12" src="video/ndp-2.mp4" type="video/mp4"
+                            class="" muted="muted" preload="auto" crossorigin="anonymous" webkit-playsinline>
                             <!-- MP4 video source. -->
 
                         </video>
                     </a-assets>
                     <!-- The original example also has this 180 degree rotation, to appear to be going forward. -->
-                    <a-videosphere id="image-360" src="#localVideo12" rotation="0 360 0"
-                        play-on-vrdisplayactivate-or-enter-vr>
+                    <a-videosphere id="image-360" look-controls-enabled="false" muted="muted" src="#localVideo12"
+                        rotation="0 220 0">
                     </a-videosphere>
 
                     <!-- Define camera with zero user height, movement disabled and arrow key rotation added. -->
-                    <a-camera user-height="0" wasd-controls-enabled="false" arrow-key-rotation>
+                    <a-camera user-height="0" look-controls-enabled="false" mouse-cursor="false" rotation-reader>
                         <!-- Text element for display messaging.  Hide once video is playing. -->
-                        <a-video id="local_video" src="#localVideo" width="16" height="12" position="75 -9 -60">
-                        </a-video>
-                        <a-video id="local_video2" src="#rem_video_360" width="16" height="12" position="75 -25 -60">
-                        </a-video>
+
 
                     </a-camera>
 
                     <!-- Wait for the video to load. -->
 
-                    <a-entity id="buttons" visible="true">
+                    <a-entity camera look-controls-enabled="false" controls="false">
 
 
-                        <a-entity id="treebutton" rotation="0 -35" position="1.7 0 -1.7" text="value: REMOTE ;"
-                            geometry="primitive: plane; height: 0.25; width: 0.5"
-                            event-set__1="_event: mousedown; scale: 1 1 1"
-                            event-set__2="_event: mouseup; scale: 1.2 1.2 1"
-                            event-set__3="_event: mouseenter; scale: 1.2 1.2 1"
-                            event-set__4="_event: mouseleave; scale: 1 1 1" hide="target: #buttons"
-                            play-video="on:click; target: #local_video; src: #localVideo"></a-entity>
-                        <a-entity></a-entity>
-
-                        <a-entity id="pondbutton" rotation="0 -90" position="2.5 0 0" text="value:LOCAL  ;"
-                            geometry="primitive: plane; height: 0.25; width: 0.5"
-                            event-set__1="_event: mousedown; scale: 1 1 1"
-                            event-set__2="_event: mouseup; scale: 1.2 1.2 1"
-                            event-set__3="_event: mouseenter; scale: 1.2 1.2 1"
-                            event-set__4="_event: mouseleave; scale: 1 1 1" hide="target: #buttons"
-                            play-video="on:click; target: #image-360; src:#localVideo12"></a-entity>
-                    </a-entity>
-
-
-
-                    <a-entity camera look-controls>
-                        <a-entity cursor="fuse: true; fuseTimeout: 500" position="0 0 -1"
-                            geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
-                            material="color: white; shader: flat">
-                        </a-entity>
                     </a-entity>
 
                 </a-scene>
@@ -155,31 +85,12 @@
 
         </div>
 
-        <span class="remoute_video video_mod">
-            <h3>Remote Stream</h3>
-            <div id="remoteVideo" class="remote_videos">
-
-            </div>
-
-
-        </span>
-
-
 
     </div>
 
 
-
-    <br />
-    <div style="display:block">
-        <button id="switchButton" class="settings" onclick="switchMedia()">Switch
-            Camera</button>
-        <button id="muteButton" class="settings" onclick="toggleMute()">Unmuted</button>
-        <button id="vidButton" class="settings" onclick="toggleVid()">Video Enabled</button>
-    </div>
 </body>
 <footer>
-    <script src='/js/main.js' lang="text/javascript"></script>
 
 
 </footer>
