@@ -23,13 +23,19 @@
   margin: auto;
   border-radius: 50px;
 }
-
+.page {
+  display: none;
+}
+.page.active {
+  display: block;
+}
 h1 {
   text-transform: uppercase;
 }
 
 .title p {
   font-size: 28px;
+  line-height: 1.4;
 }
 
 .a-enter-vr-button {
@@ -66,7 +72,14 @@ ul {
   padding-right: 34px;
   width: 40vw;
 }
-
+li.active a {
+  padding-bottom: 5px;
+  transition: 0.5s;
+  text-decoration: none;
+  color: #ffffff;
+  opacity: 1;
+  border-bottom: 1px solid #ffffff;
+}
 a {
   text-decoration: none;
   color: #ffffff;
@@ -79,9 +92,10 @@ a:hover {
 }
 
 a:active {
+  padding-bottom: 5px;
+  transition: 0.5s;
   opacity: 1;
   border-bottom: 1px solid #ffffff;
-  padding-bottom: 5px;
 }
 @media (max-width: 960px) {
   header {

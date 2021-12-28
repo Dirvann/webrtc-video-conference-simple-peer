@@ -140,12 +140,38 @@ document.addEventListener("DOMContentLoaded", function (event) {
     const iconMenu = document.querySelector('.menu_icon');
     const menuBody = document.querySelector('.menu_body');
     const videoBlock = document.querySelector('.content');
-    console.log(iconMenu);
+    const MenuItem = menuBody.querySelectorAll('li')
+    const pages = document.querySelectorAll('.page');
     iconMenu.addEventListener('click', () => {
         iconMenu.classList.toggle('active');
         menuBody.classList.toggle('active');
         videoBlock.classList.toggle('active');
     });
+
+
+    for (let item of MenuItem)
+
+        item.addEventListener('click', () => {
+            for (let itemclass of MenuItem) {
+                itemclass.classList.remove("active")
+            }
+            let itemId = item.dataset.id
+            item.classList.add('active')
+            console.log(itemId);
+            Page_active(itemId)
+
+
+        });
+    let Page_active = (id) => {
+        for (let page of pages) {
+            console.log(id);
+            page.classList.remove('active')
+            if (page.dataset.id == id) {
+                page.classList.add('active')
+            }
+        }
+    }
+
 });
 
 
