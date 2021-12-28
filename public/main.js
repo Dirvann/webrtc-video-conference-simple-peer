@@ -125,14 +125,18 @@ function sayHi() {
             });
         }
     });
+
     document.querySelector("#image-360").components.material.material.map.image.play();
+    document.addEventListener("mousemove", function (event) {
+        document.querySelector('.background_page').classList.add('active')
+    })
 
 }
 
 document.addEventListener("DOMContentLoaded", function (event) {
     console.log(1);
 
-    setTimeout(sayHi, 2000);
+    setTimeout(sayHi, 3000);
     const iconMenu = document.querySelector('.menu_icon');
     const menuBody = document.querySelector('.menu_body');
     const videoBlock = document.querySelector('.content');
