@@ -12,8 +12,6 @@ let localStream = null;
 let peers = {}
 
 // redirect if not https
-if(location.href.substr(0,5) !== 'https') 
-    location.href = 'https' + location.href.substr(4, location.href.length - 4)
 
 
 //////////// CONFIGURATION //////////////////
@@ -23,15 +21,15 @@ if(location.href.substr(0,5) !== 'https')
  */
 const configuration = {
     "iceServers": [{
-            "urls": "stun:stun.l.google.com:19302"
-        },
-        // public turn server from https://gist.github.com/sagivo/3a4b2f2c7ac6e1b5267c2f1f59ac6c6b
-        // set your own servers here
-        {
-            url: 'turn:192.158.29.39:3478?transport=udp',
-            credential: 'JZEOEt2V3Qb0y27GRntt2u2PAYA=',
-            username: '28224511:1379330808'
-        }
+        "urls": "stun:stun.l.google.com:19302"
+    },
+    // public turn server from https://gist.github.com/sagivo/3a4b2f2c7ac6e1b5267c2f1f59ac6c6b
+    // set your own servers here
+    {
+        url: 'turn:192.158.29.39:3478?transport=udp',
+        credential: 'JZEOEt2V3Qb0y27GRntt2u2PAYA=',
+        username: '28224511:1379330808'
+    }
     ]
 }
 
@@ -42,10 +40,10 @@ let constraints = {
     audio: true,
     video: {
         width: {
-            max: 300
+            max: 1200
         },
         height: {
-            max: 300
+            max: 1200
         }
     }
 }
@@ -59,10 +57,10 @@ constraints.video.facingMode = {
 // enabling the camera at startup
 navigator.mediaDevices.getUserMedia(constraints).then(stream => {
     console.log('Received local stream');
-
+    console.log(localVideo);
     localVideo.srcObject = stream;
     localStream = stream;
-
+    localStream.muted = true
     init()
 
 }).catch(e => alert(`getusermedia error ${e.name}`))
@@ -133,6 +131,7 @@ function removePeer(socket_id) {
  *                  Set to true if the peer initiates the connection process.
  *                  Set to false if the peer receives the connection. 
  */
+let remVodeos = document.getElementById('remoteVideo')
 function addPeer(socket_id, am_initiator) {
     peers[socket_id] = new SimplePeer({
         initiator: am_initiator,
@@ -147,16 +146,28 @@ function addPeer(socket_id, am_initiator) {
         })
     })
 
+    let rem_video_360 = document.getElementById('video_remote_360')
+
     peers[socket_id].on('stream', stream => {
+
+        console.log(peers[socket_id]);
         let newVid = document.createElement('video')
         newVid.srcObject = stream
         newVid.id = socket_id
         newVid.playsinline = false
         newVid.autoplay = true
-        newVid.className = "vid"
+        newVid.className = "vid";
         newVid.onclick = () => openPictureMode(newVid)
         newVid.ontouchstart = (e) => openPictureMode(newVid)
-        videos.appendChild(newVid)
+        if (!rem_video_360.querySelector('.vid')) {
+            newVid.id = "rem_video_360";
+
+            rem_video_360.appendChild(newVid)
+        }
+        else {
+            remVodeos.appendChild(newVid)
+        }
+
     })
 }
 
@@ -279,3 +290,22 @@ function updateButtons() {
         muteButton.innerText = localStream.getAudioTracks()[index].enabled ? "Unmuted" : "Muted"
     }
 }
+
+AFRAME.registerComponent('play-video', {
+    schema: {
+        target: { type: 'selector' },
+        src: { type: 'string' },
+        on: { default: 'click' },
+    },
+
+    multiple: true,
+
+    init: function () {
+        var data = this.data;
+
+        this.el.addEventListener(data.on, function () {
+            data.target.setAttribute('src', data.src);
+            data.target.components.material.material.map.image.play();
+        });
+    }
+});
