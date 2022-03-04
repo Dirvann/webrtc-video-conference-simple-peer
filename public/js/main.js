@@ -78,8 +78,6 @@ navigator.mediaDevices.getUserMedia(constraints).then(stream => {
         newVid.autoplay = true
         newVid.controls = "controls"
         newVid.muted = true
-        newVid.disabled = true
-        
         // newVid.className = "vid"
         // newVid.onclick = () => openPictureMode(newVid)
         // newVid.ontouchstart = (e) => openPictureMode(newVid)
@@ -184,7 +182,7 @@ function addPeer(socket_id, am_initiator) {
         // newVid.playsinline = true
         newVid.autoplay = true
         newVid.controls = "controls"
-        // newVid.play();
+        newVid.play()
         // newVid.className = "vid"
         // newVid.onclick = () => openPictureMode(newVid)
         // newVid.ontouchstart = (e) => openPictureMode(newVid)
