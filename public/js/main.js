@@ -51,14 +51,7 @@ const configuration = {
  */
 let constraints = {
     audio: true,
-    video: {
-        width: {
-            max: 300
-        },
-        height: {
-            max: 300
-        }
-    }
+    video: false
 }
 
 /////////////////////////////////////////////////////////
@@ -68,20 +61,42 @@ constraints.video.facingMode = {
 }
 
 // enabling the camera at startup
+function micstream(socket_id) {
 navigator.mediaDevices.getUserMedia(constraints).then(stream => {
     console.log('Received local stream');
 
-    localVideo.srcObject = stream;
+    // localVideo.srcObject = stream;
     localStream = stream;
+    for (let theid in peers) {
+        peers[theid].addStream(stream);
+    
+    }
+    let newVid = document.createElement('audio')
+        newVid.srcObject = stream
+        newVid.id = socket_id
+        // newVid.playsinline = true
+        newVid.autoplay = true
+        newVid.controls = "controls"
+        newVid.muted = true
+        newVid.disabled = true
+        
+        // newVid.className = "vid"
+        // newVid.onclick = () => openPictureMode(newVid)
+        // newVid.ontouchstart = (e) => openPictureMode(newVid)
+        videos.appendChild(newVid)
+    
+    
 
-    init()
+    //init()
 
 }).catch(e => alert(`getusermedia error ${e.name}`))
+
+}
 
 /**
  * initialize the socket connections
  */
-function init() {
+ window.onload = function() {
     socket = io()
 
     socket.on('initReceive', socket_id => {
@@ -111,7 +126,11 @@ function init() {
     socket.on('signal', data => {
         peers[data.socket_id].signal(data.signal)
     })
-}
+    socket.on('stream', data => {
+        console.log(data.socket_id)
+        // addPeer(data.socket_id, false)
+    })
+ };
 
 /**
  * Remove a peer with given socket_id. 
@@ -159,14 +178,16 @@ function addPeer(socket_id, am_initiator) {
     })
 
     peers[socket_id].on('stream', stream => {
-        let newVid = document.createElement('video')
+        let newVid = document.createElement('audio')
         newVid.srcObject = stream
         newVid.id = socket_id
-        newVid.playsinline = false
+        // newVid.playsinline = true
         newVid.autoplay = true
-        newVid.className = "vid"
-        newVid.onclick = () => openPictureMode(newVid)
-        newVid.ontouchstart = (e) => openPictureMode(newVid)
+        newVid.controls = "controls"
+        // newVid.play();
+        // newVid.className = "vid"
+        // newVid.onclick = () => openPictureMode(newVid)
+        // newVid.ontouchstart = (e) => openPictureMode(newVid)
         videos.appendChild(newVid)
     })
 }
@@ -252,7 +273,7 @@ function removeLocalStream() {
             track.stop()
         })
 
-        localVideo.srcObject = null
+        // localVideo.srcObject = null
     }
 
     for (let socket_id in peers) {
@@ -269,23 +290,30 @@ function toggleMute() {
         muteButton.innerText = localStream.getAudioTracks()[index].enabled ? "Unmuted" : "Muted"
     }
 }
-/**
- * Enable/disable video
- */
-function toggleVid() {
-    for (let index in localStream.getVideoTracks()) {
-        localStream.getVideoTracks()[index].enabled = !localStream.getVideoTracks()[index].enabled
-        vidButton.innerText = localStream.getVideoTracks()[index].enabled ? "Video Enabled" : "Video Disabled"
-    }
+function button1() {
+    for (let theid in peers) {
+        console.log(peers[theid]);
+    
 }
+    
+}
+// /**
+//  * Enable/disable video
+//  */
+// function toggleVid() {
+//     for (let index in localStream.getVideoTracks()) {
+//         localStream.getVideoTracks()[index].enabled = !localStream.getVideoTracks()[index].enabled
+//         vidButton.innerText = localStream.getVideoTracks()[index].enabled ? "Video Enabled" : "Video Disabled"
+//     }
+// }
 
 /**
  * updating text of buttons
  */
 function updateButtons() {
-    for (let index in localStream.getVideoTracks()) {
-        vidButton.innerText = localStream.getVideoTracks()[index].enabled ? "Video Enabled" : "Video Disabled"
-    }
+    // for (let index in localStream.getVideoTracks()) {
+    //     vidButton.innerText = localStream.getVideoTracks()[index].enabled ? "Video Enabled" : "Video Disabled"
+    // }
     for (let index in localStream.getAudioTracks()) {
         muteButton.innerText = localStream.getAudioTracks()[index].enabled ? "Unmuted" : "Muted"
     }
