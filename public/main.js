@@ -174,4 +174,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
 });
 
+let video = Document.querySelector('.local_video');
+
+video.insertAdjacentHTML("beforeBegin", "<video></video>");
 
