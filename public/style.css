@@ -28,7 +28,20 @@
 }
 .page.active {
   display: block;
+  animation: animatedText 0.5s ease-in-out 0.5s 1 normal both;
 }
+@keyframes animatedText {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+  }
+}
+
 h1 {
   text-transform: uppercase;
 }
@@ -72,8 +85,16 @@ header {
   color: #ffffff;
   bottom: 0;
   right: 0;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
 }
-
+.sphere {
+  height: 30px;
+  width: 30px;
+  margin-left: 30px;
+}
 ul {
   display: flex;
   justify-content: space-between;
@@ -82,7 +103,7 @@ ul {
   padding-right: 34px;
   width: 40vw;
 }
-li.active a {
+ul li.active a {
   padding-bottom: 5px;
   transition: 0.5s;
   text-decoration: none;
@@ -90,18 +111,18 @@ li.active a {
   opacity: 1;
   border-bottom: 1px solid #ffffff;
 }
-a {
+ul a {
   text-decoration: none;
   color: #ffffff;
   font-family: "arial";
   opacity: 0.5;
 }
 
-a:hover {
+ul a:hover {
   opacity: 1;
 }
 
-a:active {
+ul a:active {
   padding-bottom: 5px;
   transition: 0.5s;
   opacity: 1;
