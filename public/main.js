@@ -1,14 +1,9 @@
-
-
-
+// Определение движения мыши
 let x;
 let y;
 var ax = 0;
 var ay = 0;
 window.addEventListener('mousemove', function (e) {
-
-
-
 });
 var timestamp = null;
 let lastMouseX;
@@ -25,6 +20,8 @@ window.addEventListener('mousemove', function (e) {
 	}
 
 });
+
+// Анимация движения видео за курсором
 function animate(options) {
 
 	var start = performance.now();
@@ -105,6 +102,8 @@ AFRAME.registerComponent('rotation-reader', {
 	}
 
 });
+
+// Функция воспроизведения видео
 function sayHi() {
 
 	AFRAME.registerComponent('play-video', {
@@ -169,6 +168,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 			page.classList.remove('active');
 			if (page.dataset.id == id) {
 				page.classList.add('active');
+
 			}
 		}
 	}
@@ -176,6 +176,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
 
 });
+
 
 let video = Document.querySelector('.local_video');
 

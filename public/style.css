@@ -1,3 +1,9 @@
+a {
+  cursor: pointer;
+}
+.videos {
+  overflow-y: scroll;
+}
 .content {
   position: relative;
 }
@@ -91,8 +97,8 @@ header {
   justify-content: space-between;
 }
 .sphere {
-  height: 30px;
-  width: 30px;
+  height: 45px;
+  width: 45px;
   margin-left: 30px;
 }
 ul {
