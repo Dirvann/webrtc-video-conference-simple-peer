@@ -1,3 +1,9 @@
+a {
+  cursor: pointer;
+}
+.videos {
+  overflow-y: scroll;
+}
 .content {
   position: relative;
 }
@@ -28,7 +34,20 @@
 }
 .page.active {
   display: block;
+  animation: animatedText 0.5s ease-in-out 0.5s 1 normal both;
 }
+@keyframes animatedText {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+  }
+}
+
 h1 {
   text-transform: uppercase;
 }
@@ -41,14 +60,24 @@ h1 {
 .a-enter-vr-button {
   display: none;
 }
+.mob_video {
+  display: none;
+}
 
+.local_video {
+  position: fixed;
+  top: 0;
+  left: 0;
+}
 .content {
   align-items: center;
   font-family: "arial";
-  padding-top: 10%;
+  display: flex;
+  vertical-align: middle;
   max-width: 1200;
   margin: auto;
   color: #fff;
+  height: 100%;
 }
 
 .a-body {
@@ -62,8 +91,16 @@ header {
   color: #ffffff;
   bottom: 0;
   right: 0;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
 }
-
+.sphere {
+  height: 45px;
+  width: 45px;
+  margin-left: 30px;
+}
 ul {
   display: flex;
   justify-content: space-between;
@@ -72,7 +109,7 @@ ul {
   padding-right: 34px;
   width: 40vw;
 }
-li.active a {
+ul li.active a {
   padding-bottom: 5px;
   transition: 0.5s;
   text-decoration: none;
@@ -80,23 +117,24 @@ li.active a {
   opacity: 1;
   border-bottom: 1px solid #ffffff;
 }
-a {
+ul a {
   text-decoration: none;
   color: #ffffff;
   font-family: "arial";
   opacity: 0.5;
 }
 
-a:hover {
+ul a:hover {
   opacity: 1;
 }
 
-a:active {
+ul a:active {
   padding-bottom: 5px;
   transition: 0.5s;
   opacity: 1;
   border-bottom: 1px solid #ffffff;
 }
+
 @media (max-width: 960px) {
   header {
     top: 1rem;
@@ -175,5 +213,38 @@ a:active {
     transition: top 1.3s ease 2s;
     transform: translate(100%, 0%);
     transform: scale(1) translate(0px, -50%);
+  }
+}
+@media (max-width: 500px) {
+  .local_video {
+    display: none;
+  }
+  .video-background-hand {
+    height: 130vh;
+    margin-top: -30vh;
+    -o-object-position: 70% 50%;
+    object-position: 70% 50%;
+    transition-timing-function: ease;
+    transition-duration: 0.5s;
+    transition-property: opacity;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 1;
+    object-fit: cover;
+    width: 100vw;
+    top: 0;
+    left: 0;
+    position: fixed;
+  }
+  .content {
+    position: fixed;
+    width: 100%;
+    z-index: 10000;
+    top: 0;
+    left: 0;
+  }
+}
+@media screen and (max-width: 500px) {
+  .mob_video {
+    display: block;
   }
 }
