@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "express": "^4.17.1",
+    "express": "^4.18.2",
     "httpolyglot": "^0.1.2",
     "simple-peer": "^9.7.0",
     "socket.io": "^2.4.0"
